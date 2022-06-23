@@ -13,10 +13,10 @@ public class NoticeController : MonoBehaviour
     }
     [SerializeField]
     Text m_TxtMsg;//跑馬燈text.
-    [SerializeField] Queue<string> m_MsgQueue = new Queue<string>();//燈隊列.
+    Queue<string> m_MsgQueue = new Queue<string>();//燈隊列.
     //Font m_Font;
     bool isScrolling = false;//判斷當前text中的跑馬燈是否跑完.
-    [SerializeField] float moveSpeed;
+    [SerializeField] float moveSpeed;   //跑馬燈速度
     public void Init()
     {
         m_MsgQueue = new Queue<string>();
