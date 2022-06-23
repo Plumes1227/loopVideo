@@ -13,31 +13,19 @@ public class TextMessageLoad : MonoBehaviour
     List<string> messageTextList = new List<string>();
 
     Dictionary<string, Queue<string>> showeTimeDictionary = new Dictionary<string, Queue<string>>();
-
-    [SerializeField] bool isUseResourcs;
+    
     string dataPath;
     const string TIMECLOCK = "TimeClock";
     void Start()
     {
+        Application.runInBackground = true;
         dataPath = Application.persistentDataPath + $"/{txtDataName}.txt";
         loadTxtData();
     }
 
-    string Check()
-    {
-        try
-        {
-            File.ReadAllText(txtDataName);            
-        }
-        catch
-        {
-            return "";
-        }
-        return Resources.Load(txtDataName).ToString();
-    }
     void loadTxtData()
     {
-        string textData = isUseResourcs ? Check() : RuntimeText.ReadString(txtDataName);
+        string textData = RuntimeText.ReadString(txtDataName);
         Debug.Log(textData);
         if (string.IsNullOrEmpty(textData))
         {
@@ -75,6 +63,7 @@ public class TextMessageLoad : MonoBehaviour
             }
             showeTimeDictionary.Add(time, msgQ);
         }
+        NoticeController.noticeController.AddMessage($"文本讀取成功,將按照時間表播放跑馬燈");
         OnLoadCompete();
     }
 
@@ -106,11 +95,6 @@ public class TextMessageLoad : MonoBehaviour
 
     void CreateTimeTxtData()
     {
-        if (isUseResourcs)
-        {
-            NoticeController.noticeController.AddMessage($"找不到TimeText.txt檔案,請檢察\\loopVideo_Data\\Resources\\TimeText.txt是否存在");
-            return;
-        }
         string mes = $"{DateTime.Now.ToString("HH:mm")}#我是範例格式|歡迎編輯此跑馬燈資訊|請遵照本格式編輯此文本";
         RuntimeText.WriteString(txtDataName, mes);
         NoticeController.noticeController.AddMessage(
@@ -119,20 +103,17 @@ public class TextMessageLoad : MonoBehaviour
     }
     void DebugTextData(int rows)
     {
-        NoticeController.noticeController.AddMessage($"文本檔案-{txtDataName}第{rows}行為空\n行,不可有空行,請遵循例格式- 24:59#內容A|內容B|...");
-        if (isUseResourcs) return;
+        NoticeController.noticeController.AddMessage($"文本檔案-{txtDataName}第{rows}行為空\n行,不可有空行,請遵循例格式- 24:59#內容A|內容B|...");        
         NoticeController.noticeController.AddMessage($"檔案位址:{dataPath}");
     }
     void DebugTextData(int rows, string bugMessage)
     {
-        NoticeController.noticeController.AddMessage($"文本檔案-{txtDataName}第{rows}行格式錯誤[{bugMessage}],請遵循例格式- 24:59#內容A|內容B|...");
-        if (isUseResourcs) return;
+        NoticeController.noticeController.AddMessage($"文本檔案-{txtDataName}第{rows}行格式錯誤[{bugMessage}],請遵循例格式- 24:59#內容A|內容B|...");        
         NoticeController.noticeController.AddMessage($"檔案位址:{dataPath}");
     }
     void DebugTextData(string timeKey)
     {
         NoticeController.noticeController.AddMessage($"文本檔案-{txtDataName}含有重複的時間點{timeKey},請確認時間點為唯一時間");
-        if (isUseResourcs) return;
         NoticeController.noticeController.AddMessage($"檔案位址:{dataPath}");
     }
 }

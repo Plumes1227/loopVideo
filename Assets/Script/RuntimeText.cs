@@ -4,7 +4,7 @@ public class RuntimeText : MonoBehaviour
 {
     public static void WriteString(string txtDataName, string message)
     {
-        string path = Application.persistentDataPath + $"/{txtDataName}.txt";
+        string path = Application.streamingAssetsPath + $"/{txtDataName}.txt";
         //Write some text to the test.txt file
         StreamWriter writer = new StreamWriter(path, true);
         writer.Write(message);
@@ -16,13 +16,13 @@ public class RuntimeText : MonoBehaviour
     }
     public static string ReadString(string txtDataName)
     {
-        string path = Application.persistentDataPath + $"/{txtDataName}.txt";
+        string path = Application.streamingAssetsPath + $"/{txtDataName}.txt";
 
         //string path = Application.persistentDataPath + "/test.txt";
         //Read the text from directly from the test.txt file
         try
         {
-            File.ReadAllText(path);
+            File.Exists(path);
         }
         catch
         {
