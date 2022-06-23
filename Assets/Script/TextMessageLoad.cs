@@ -19,14 +19,11 @@ public class TextMessageLoad : MonoBehaviour
     {
         dataPath = Application.persistentDataPath + $"/{txtDataName}.txt";
         loadTxtData();
-        NoticeController.noticeController.AddMessage("---3---");
-        NoticeController.noticeController.AddMessage("---2---");
-        NoticeController.noticeController.AddMessage("---1---");
+        NoticeController.noticeController.AddMessage("---歡迎---");
     }
     void loadTxtData()
     {
-        string textData = RuntimeText.ReadString(txtDataName);
-        Debug.Log(textData);
+        string textData = RuntimeText.ReadString(txtDataName);        
         if (string.IsNullOrEmpty(textData))
         {
             CreateTimeTxtData();
@@ -53,14 +50,6 @@ public class TextMessageLoad : MonoBehaviour
             {
                 msgQ.Enqueue(item);
             }
-            // if (allmessage.Contains("|"))
-            // {
-
-            // }
-            // else
-            // {
-            //     msgQ.Enqueue(allmessage);
-            // }
 
             messageShowTimeList.Add(time);
             messageTextList.Add(allmessage);
@@ -102,7 +91,7 @@ public class TextMessageLoad : MonoBehaviour
 
     void CreateTimeTxtData()
     {
-        string mes = $"{DateTime.Now.ToString("mm:ss")}#我是範例格式|歡迎編輯此跑馬燈資訊|請遵照本格式編輯此文本";
+        string mes = $"{DateTime.Now.ToString("HH:mm")}#我是範例格式|歡迎編輯此跑馬燈資訊|請遵照本格式編輯此文本";
         RuntimeText.WriteString(txtDataName, mes);
         NoticeController.noticeController.AddMessage(
             $"尚未有文本檔案,已生成初始文本檔案,請至{dataPath}查閱"
