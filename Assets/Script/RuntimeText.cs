@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.IO;
+using System;
+
 public class RuntimeText : MonoBehaviour
 {
     public static void WriteString(string txtDataName, string message)
@@ -17,19 +19,19 @@ public class RuntimeText : MonoBehaviour
     public static string ReadString(string txtDataName)
     {
         string path = Application.streamingAssetsPath + $"/{txtDataName}.txt";
+        try
+        {
+            StreamReader reader = new StreamReader(path);
+            return reader.ReadToEnd();
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+            return "";
+        }
 
         //string path = Application.persistentDataPath + "/test.txt";
         //Read the text from directly from the test.txt file
-        try
-        {
-            File.Exists(path);
-        }
-        catch
-        {
-            return "";
-        }
-        StreamReader reader = new StreamReader(path);
-        return reader.ReadToEnd();
         // reader.Close();
     }
 }

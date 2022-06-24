@@ -63,7 +63,6 @@ public class TextMessageLoad : MonoBehaviour
             }
             showeTimeDictionary.Add(time, msgQ);
         }
-        NoticeController.noticeController.AddMessage($"文本讀取成功,將按照時間表播放跑馬燈");
         OnLoadCompete();
     }
 
