@@ -11,54 +11,107 @@ public class NoticeController : MonoBehaviour
     {
         noticeController = this;
     }
-    [SerializeField]
-    Text m_TxtMsg;//跑馬燈text.
-    Queue<string> m_MsgQueue = new Queue<string>();//燈隊列.
-    //Font m_Font;
-    bool isScrolling = false;//判斷當前text中的跑馬燈是否跑完.
-    [SerializeField] float moveSpeed;   //跑馬燈速度
-    public void Init()
+    [SerializeField] RectTransform normalTxtMsgRect;
+    CanvasGroup normalTxtMsgCvsG;
+    [SerializeField] Text normalTxtMsg;//跑馬燈text.
+    [SerializeField] RectTransform storyTxtMsgRect;
+    CanvasGroup storyTxtMsgCvsG;
+    [SerializeField] Text storyTxtMsg;//解說員跑馬燈text.
+    Queue<string> m_MsgQueue = new Queue<string>();//文字隊列
+    Queue<string> storyMsgQueue = new Queue<string>();//解說員文字隊列
+    Queue<float> storySecQueue = new Queue<float>();//解說員播文字放時間對列,
+    bool isNormalScrolling = false;//判斷當前text中的跑馬燈是否跑完.
+    bool isStoryScrolling = false;
+    [SerializeField] float normalMsgSpeed;   //跑馬燈速度
+    [SerializeField] float storyMsgSpeed;   //跑馬燈速度
+    float storySec;
+    private void Start()
     {
-        m_MsgQueue = new Queue<string>();
+        normalTxtMsgCvsG = normalTxtMsgRect.GetComponent<CanvasGroup>();
+        storyTxtMsgCvsG = storyTxtMsgRect.GetComponent<CanvasGroup>();
     }
-
 
     /// <summary>
     /// 添加跑馬燈信息.
     /// </summary>
     /// <param name="msg"></param>    
-    public void AddMessage(string msg)
+    public void AddNormalMessage(string msg)
     {
-        if (!gameObject.activeSelf)
+        if (!normalTxtMsgRect.gameObject.activeSelf)
         {
-            gameObject.SetActive(true);
-            Init();
+            normalTxtMsgRect.gameObject.SetActive(true);
+            //NormalInit();
         }
         m_MsgQueue.Enqueue(msg);
-        if (isScrolling) return;
-        StartCoroutine(Scrolling());
+        if (isNormalScrolling) return;
+        StartCoroutine(NormalTxtMsgScrolling());
     }
-    public IEnumerator Scrolling()
+    private IEnumerator NormalTxtMsgScrolling()
     {
-        float beginX = 1650;
-        float leftX = -1650;
+        float rectWidth = normalTxtMsgRect.rect.width;
         while (m_MsgQueue.Count > 0)
         {
-            float duration = 10f;
             string msg = m_MsgQueue.Dequeue();
-            m_TxtMsg.text = msg;
-            float txtWidth = m_TxtMsg.preferredWidth;//文本自身的長度.
-            Vector3 pos = m_TxtMsg.rectTransform.localPosition;
-            float distance = beginX - leftX + txtWidth;
-            duration = distance / moveSpeed;
-            isScrolling = true;
-
-            m_TxtMsg.rectTransform.localPosition = new Vector3(beginX + txtWidth / 2, pos.y, pos.z);
-            m_TxtMsg.rectTransform.DOLocalMoveX(-distance / 2, duration).SetEase(Ease.Linear);
+            normalTxtMsg.text = msg;
+            float txtWidth = normalTxtMsg.preferredWidth;//文本自身的長度.
+            Vector3 pos = normalTxtMsg.rectTransform.localPosition;
+            float startPos = rectWidth / 2 + txtWidth * 0.7f;
+            float duration = startPos / storyMsgSpeed;
+            isNormalScrolling = true;
+            normalTxtMsg.rectTransform.localPosition = new Vector3(startPos, pos.y, pos.z);
+            normalTxtMsg.rectTransform.DOLocalMoveX(-startPos, duration).SetEase(Ease.Linear);            
             yield return new WaitForSeconds(duration);
         }
-        isScrolling = false;
-        //gameObject.SetActive(false);
+        isNormalScrolling = false;
+        normalTxtMsgRect.gameObject.SetActive(false);
+        yield break;
+    }
+
+    /// <summary>
+    /// 添加解說員跑馬燈信息,限制秒數內播放完畢,0=不限制,由原速度控制
+    /// </summary>
+    /// <param name="msg"></param>
+    /// <param name="sec"></param>
+    public void AddStoryMessage(string msg, float sec)
+    {
+        if (!storyTxtMsgRect.gameObject.activeSelf)
+        {
+            storyTxtMsgRect.gameObject.SetActive(true);
+        }
+        storyMsgQueue.Enqueue(msg);
+        storySecQueue.Enqueue(sec);
+        if (isStoryScrolling) return;
+        StartCoroutine(StoryTxtMsgScrolling());
+    }
+
+    private IEnumerator StoryTxtMsgScrolling()
+    {
+        float rectWidth = storyTxtMsgRect.rect.width;
+        while (storyMsgQueue.Count > 0)
+        {
+            string msg = storyMsgQueue.Dequeue();
+            storyTxtMsg.text = msg;
+            float txtWidth = storyTxtMsg.preferredWidth;//文本自身的長度.
+            Vector3 pos = storyTxtMsg.rectTransform.localPosition;
+            float startPos = rectWidth / 2 + txtWidth * 0.7f;
+            float duration = startPos / storyMsgSpeed;
+            isStoryScrolling = true;
+
+            storySec = storySecQueue.Dequeue();
+            storyTxtMsg.rectTransform.localPosition = new Vector3(startPos, pos.y, pos.z);
+            if (storySec > 0)
+            {
+                storyTxtMsg.rectTransform.DOLocalMoveX(-startPos, storySec).SetEase(Ease.Linear);
+                yield return new WaitForSeconds(storySec);
+            }
+            else
+            {
+                storyTxtMsg.rectTransform.DOLocalMoveX(-startPos, duration).SetEase(Ease.Linear);
+                yield return new WaitForSeconds(duration);
+            }
+        }
+        isStoryScrolling = false;
+        storyTxtMsgRect.gameObject.SetActive(false);
         yield break;
     }
 }

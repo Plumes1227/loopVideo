@@ -26,8 +26,8 @@ public class VideoController : MonoBehaviour
         catch (Exception e)
         {
             Debug.Log(e);
-            NoticeController.noticeController.AddMessage($"影片設定文本讀取失敗,找不到VideoTypeSetting.txt");
-            NoticeController.noticeController.AddMessage($"路徑{Application.streamingAssetsPath}");
+            NoticeController.noticeController.AddNormalMessage($"影片設定文本讀取失敗,找不到VideoTypeSetting.txt");
+            NoticeController.noticeController.AddNormalMessage($"路徑{Application.streamingAssetsPath}");
             return;
         }
         LoadVideoData();
@@ -43,8 +43,8 @@ public class VideoController : MonoBehaviour
         catch (Exception e)
         {
             Debug.Log(e);
-            NoticeController.noticeController.AddMessage($"影片檔名讀取失敗,請檢查'VideoTypeSetting.txt'文本內容是否與影片[檔名.副檔名] 一致,");
-            NoticeController.noticeController.AddMessage($"路徑{Application.streamingAssetsPath}");
+            NoticeController.noticeController.AddNormalMessage($"影片檔名讀取失敗,請檢查'VideoTypeSetting.txt'文本內容是否與影片[檔名.副檔名] 一致,");
+            NoticeController.noticeController.AddNormalMessage($"路徑{Application.streamingAssetsPath}");
             return;
         }
     }

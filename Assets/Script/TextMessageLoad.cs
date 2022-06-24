@@ -8,12 +8,12 @@ public class TextMessageLoad : MonoBehaviour
 {
     [SerializeField] string txtDataName;
 
-    string nowTime;
+    string nowTime;    
     List<string> messageShowTimeList = new List<string>();
     List<string> messageTextList = new List<string>();
 
     Dictionary<string, Queue<string>> showeTimeDictionary = new Dictionary<string, Queue<string>>();
-    
+
     string dataPath;
     const string TIMECLOCK = "TimeClock";
     void Start()
@@ -64,19 +64,24 @@ public class TextMessageLoad : MonoBehaviour
             showeTimeDictionary.Add(time, msgQ);
         }
         OnLoadCompete();
+        NoticeController.noticeController.AddNormalMessage("讀取成功,測試用文字");
+        NoticeController.noticeController.AddNormalMessage("讀取成功,測試用文字2");
     }
 
     void OnLoadCompete()
     {
         int sec = int.Parse(DateTime.Now.ToString("ss"));
-        InvokeRepeating(TIMECLOCK, 60 - sec, 60);
+        InvokeRepeating(TIMECLOCK, 60 - sec, 1);
     }
 
-    //每分鐘調用一次
+    //每秒調用一次
     void TimeClock()
     {
-        nowTime = DateTime.Now.ToString("HH:mm");
+        nowTime = DateTime.Now.ToString("HH:mm:ss");
         Debug.Log(nowTime);
+        // if ()
+        // {
+        // }
         CheckMessageSendTime();     //每分鐘檢查一次是否為發送訊息時間        
     }
 
@@ -87,7 +92,7 @@ public class TextMessageLoad : MonoBehaviour
         int messageLenght = showeTimeDictionary[nowTime].Count;
         for (int i = 0; i < messageLenght; i++)
         {
-            NoticeController.noticeController.AddMessage(showeTimeDictionary[nowTime].Dequeue());
+            NoticeController.noticeController.AddNormalMessage(showeTimeDictionary[nowTime].Dequeue());
         }
     }
 
@@ -96,24 +101,24 @@ public class TextMessageLoad : MonoBehaviour
     {
         string mes = $"{DateTime.Now.ToString("HH:mm")}#我是範例格式|歡迎編輯此跑馬燈資訊|請遵照本格式編輯此文本";
         RuntimeText.WriteString(txtDataName, mes);
-        NoticeController.noticeController.AddMessage(
+        NoticeController.noticeController.AddNormalMessage(
             $"尚未有文本檔案,已生成初始文本檔案,請至{dataPath}查閱"
         );
     }
     void DebugTextData(int rows)
     {
-        NoticeController.noticeController.AddMessage($"文本檔案-{txtDataName}第{rows}行為空\n行,不可有空行,請遵循例格式- 24:59#內容A|內容B|...");        
-        NoticeController.noticeController.AddMessage($"檔案位址:{dataPath}");
+        NoticeController.noticeController.AddNormalMessage($"文本檔案-{txtDataName}第{rows}行為空\n行,不可有空行,請遵循例格式- 24:59#內容A|內容B|...");
+        NoticeController.noticeController.AddNormalMessage($"檔案位址:{dataPath}");
     }
     void DebugTextData(int rows, string bugMessage)
     {
-        NoticeController.noticeController.AddMessage($"文本檔案-{txtDataName}第{rows}行格式錯誤[{bugMessage}],請遵循例格式- 24:59#內容A|內容B|...");        
-        NoticeController.noticeController.AddMessage($"檔案位址:{dataPath}");
+        NoticeController.noticeController.AddNormalMessage($"文本檔案-{txtDataName}第{rows}行格式錯誤[{bugMessage}],請遵循例格式- 24:59#內容A|內容B|...");
+        NoticeController.noticeController.AddNormalMessage($"檔案位址:{dataPath}");
     }
     void DebugTextData(string timeKey)
     {
-        NoticeController.noticeController.AddMessage($"文本檔案-{txtDataName}含有重複的時間點{timeKey},請確認時間點為唯一時間");
-        NoticeController.noticeController.AddMessage($"檔案位址:{dataPath}");
+        NoticeController.noticeController.AddNormalMessage($"文本檔案-{txtDataName}含有重複的時間點{timeKey},請確認時間點為唯一時間");
+        NoticeController.noticeController.AddNormalMessage($"檔案位址:{dataPath}");
     }
 }
 
