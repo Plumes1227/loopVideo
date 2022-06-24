@@ -6,8 +6,7 @@ using System;
 public class VideoController : MonoBehaviour
 {
     [SerializeField] string videoTypeTxtName;
-    [SerializeField] string videoDataName;
-    string videoType;
+    string videoDataName;    
     VideoPlayer videoPlayer;
 
     void Start()
@@ -20,21 +19,22 @@ public class VideoController : MonoBehaviour
     {
         string path = Application.streamingAssetsPath + $"/{videoTypeTxtName}.txt";
         try
-        {
-            File.Exists(path);
+        {            
             StreamReader reader = new StreamReader(path);
-            videoType = reader.ReadToEnd();
+            videoDataName = reader.ReadToEnd();
         }
         catch (Exception e)
         {
             Debug.Log(e);
+            NoticeController.noticeController.AddMessage($"影片設定文本讀取失敗,找不到VideoTypeSetting.txt");
+            NoticeController.noticeController.AddMessage($"路徑{Application.streamingAssetsPath}");
             return;
         }
         LoadVideoData();
     }
     private void LoadVideoData()
     {
-        string path = Application.streamingAssetsPath + $"/{videoDataName}.{videoType}";
+        string path = Application.streamingAssetsPath + $"/{videoDataName}";
         try
         {
             File.Exists(path);
@@ -43,6 +43,8 @@ public class VideoController : MonoBehaviour
         catch (Exception e)
         {
             Debug.Log(e);
+            NoticeController.noticeController.AddMessage($"影片檔名讀取失敗,請檢查'VideoTypeSetting.txt'文本內容是否與影片[檔名.副檔名] 一致,");
+            NoticeController.noticeController.AddMessage($"路徑{Application.streamingAssetsPath}");
             return;
         }
     }
