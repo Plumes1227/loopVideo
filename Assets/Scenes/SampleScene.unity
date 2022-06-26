@@ -501,12 +501,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 535498522}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0bf4f463f7977b449029e92817253e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  txtDataName: TimeTextData
+  txtDataName: "\u5B9A\u6642\u8DD1\u99AC\u71C8\u6587\u672C"
 --- !u!114 &535498526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -519,6 +519,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27ae7b3ca7f0b394a874461e4d44d8ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  storyTxtDataName: "\u89E3\u8AAA\u54E1\u6587\u672C"
 --- !u!1 &1055186135
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,7 +796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65a340c8b00cf1a47a92cf0b229e2d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  videoTypeTxtName: VideoTypeSetting
+  videoTypeTxtName: "\u5F71\u7247\u540D\u7A31\u985E\u578B\u8A2D\u5B9A"
 --- !u!1 &1736646443
 GameObject:
   m_ObjectHideFlags: 0

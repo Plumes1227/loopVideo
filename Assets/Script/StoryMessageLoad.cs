@@ -25,13 +25,17 @@ public class StoryMessageLoad : MonoBehaviour
     void loadTxtData()
     {
         string textData = RuntimeText.ReadString(storyTxtDataName);
-        Debug.Log(textData);
+        if(string.IsNullOrEmpty(textData)) 
+        {
+            Debug.Log($"找不到文件:{storyTxtDataName}.txt");
+            return;
+        }
         string[] str = textData.Split('\n');
         for (int i = 0; i < str.Length; i++)
         {
             if (!string.IsNullOrEmpty(str[i]))
             {
-                
+                                
             }
         }
         // if (string.IsNullOrEmpty(textData))
@@ -70,7 +74,7 @@ public class StoryMessageLoad : MonoBehaviour
         //     storyShoweTimeDictionary.Add(time, msgQ);
         // }
         OnLoadCompete();
-        NoticeController.noticeController.AddStoryMessage("thisMessage,is One second over", 1);
+        NoticeController.noticeController.AddStoryMessage("thisMessage,is One second over", 2);
         NoticeController.noticeController.AddStoryMessage("LoadFinish,TestRunTxtMsg", 0);
     }
 
@@ -100,30 +104,5 @@ public class StoryMessageLoad : MonoBehaviour
         {
             NoticeController.noticeController.AddNormalMessage(storyShoweTimeDictionary[nowTime].Dequeue());
         }
-    }
-
-
-    void CreateTimeTxtData()
-    {
-        string mes = $"{DateTime.Now.ToString("HH:mm")}#我是範例格式|歡迎編輯此跑馬燈資訊|請遵照本格式編輯此文本";
-        RuntimeText.WriteString(storyTxtDataName, mes);
-        NoticeController.noticeController.AddNormalMessage(
-            $"尚未有文本檔案,已生成初始文本檔案,請至{dataPath}查閱"
-        );
-    }
-    void DebugTextData(int rows)
-    {
-        NoticeController.noticeController.AddNormalMessage($"文本檔案-{storyTxtDataName}第{rows}行為空\n行,不可有空行,請遵循例格式- 24:59#內容A|內容B|...");
-        NoticeController.noticeController.AddNormalMessage($"檔案位址:{dataPath}");
-    }
-    void DebugTextData(int rows, string bugMessage)
-    {
-        NoticeController.noticeController.AddNormalMessage($"文本檔案-{storyTxtDataName}第{rows}行格式錯誤[{bugMessage}],請遵循例格式- 24:59#內容A|內容B|...");
-        NoticeController.noticeController.AddNormalMessage($"檔案位址:{dataPath}");
-    }
-    void DebugTextData(string timeKey)
-    {
-        NoticeController.noticeController.AddNormalMessage($"文本檔案-{storyTxtDataName}含有重複的時間點{timeKey},請確認時間點為唯一時間");
-        NoticeController.noticeController.AddNormalMessage($"檔案位址:{dataPath}");
     }
 }
