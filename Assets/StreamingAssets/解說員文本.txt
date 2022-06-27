@@ -1,11 +1,14 @@
+#請依照此格式編輯,跑馬燈會依據句子時間長度去改變速度,請將預留間隔時間加進去
 [Timeline]#00:00:02#00:00:07
 Welcome to Open Ocean tank.
 
 [Timeline]#00:00:07#00:00:12
 This is the imitative environment of the eastern.
 
-[Timeline]#00:00:12#00:00:17
+[Timeline]#00:00:12#00:00:15
 The Pacific ocean.
+
+[Timeline]#00:00:15#00:00:17    #此為間隔範例,下方可不用再輸入任何文字
 
 [Timeline]#00:00:17#00:00:24
 In this area, there are sufficient sunlight and proper water temperature.

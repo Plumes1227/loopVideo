@@ -41,8 +41,8 @@ public class TextMessageLoad : MonoBehaviour
                     DebugTextData(i, str[i]);
                     return;
                 }
-                string time = str[i].Split('#')[0];
-                string allmessage = str[i].Split('#')[1];
+                string time = str[i].Split('#')[0].Trim();
+                string allmessage = str[i].Split('#')[1].Trim();
 
                 List<string> msgL = new List<string>();
                 foreach (var item in allmessage.Split('|'))
@@ -62,7 +62,7 @@ public class TextMessageLoad : MonoBehaviour
             }
         }
         OnLoadComplete();
-        NoticeController.noticeController.AddNormalMessage("讀取成功,測試用文字");
+        NoticeController.noticeController.AddNormalMessage("讀取成功,開始播放");
     }
 
     void OnLoadComplete()
@@ -96,7 +96,7 @@ public class TextMessageLoad : MonoBehaviour
         string mes = $"{DateTime.Now.ToString("HH:mm")}#我是範例格式|歡迎編輯此跑馬燈資訊|請遵照本格式編輯此文本";
         RuntimeText.WriteString(TIMEDRUNMESSAGE_TXTDATA, mes);
         NoticeController.noticeController.AddNormalMessage(
-            $"查無文本檔案,已生成初始文本檔案,請至{dataPath}查閱"
+            $"找不到{TIMEDRUNMESSAGE_TXTDATA}檔案,已生成初始文本檔案,請至{dataPath}查閱"
         );
     }
     void DebugTextData(int rows, string bugMessage)

@@ -2,13 +2,27 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.Video;
 using System;
+using DG.Tweening;
+
 
 public class VideoController : MonoBehaviour
 {
+    public static VideoController videoController;
+    [SerializeField] CanvasGroup videoRawImageCanvasGroup;
     const string VIDEOTPYE_TXTDATA = "影片名稱類型設定";
-    string videoDataName;    
+
+    string[] dataStr;
+    string loopVideoDataName;
+    string narratorVideoDataName;
+
+    string loopVideoPath;
+    string narratorVideoPath;
     VideoPlayer videoPlayer;
 
+    void Awake()
+    {
+        videoController = this;
+    }
     void Start()
     {
         videoPlayer = GetComponent<VideoPlayer>();
@@ -19,33 +33,86 @@ public class VideoController : MonoBehaviour
     {
         string path = Application.streamingAssetsPath + $"/{VIDEOTPYE_TXTDATA}.txt";
         try
-        {            
+        {
             StreamReader reader = new StreamReader(path);
-            videoDataName = reader.ReadToEnd();
+            dataStr = reader.ReadToEnd().Split('\n');
         }
         catch (Exception e)
         {
             Debug.Log(e);
-            NoticeController.noticeController.AddNormalMessage($"影片設定文本讀取失敗,找不到VideoTypeSetting.txt");
+            NoticeController.noticeController.AddNormalMessage($"影片設定文本讀取失敗,找不到{VIDEOTPYE_TXTDATA}.txt");
             NoticeController.noticeController.AddNormalMessage($"路徑{Application.streamingAssetsPath}");
             return;
+        }
+
+        for (int i = 0; i < dataStr.Length; i++)
+        {
+            if (dataStr[i].Contains("[LoopVideo]#"))
+            {
+                loopVideoDataName = dataStr[i].Split('#')[1].Trim();
+            }
+            if (dataStr[i].Contains("[FeedingVideo]#"))
+            {
+                narratorVideoDataName = dataStr[i].Split('#')[1].Trim();
+            }
         }
         LoadVideoData();
     }
     private void LoadVideoData()
     {
-        string path = Application.streamingAssetsPath + $"/{videoDataName}";
+        loopVideoPath = Application.streamingAssetsPath + $"/{loopVideoDataName}";
+        narratorVideoPath = Application.streamingAssetsPath + $"/{narratorVideoDataName}";
         try
         {
-            File.Exists(path);
-            videoPlayer.url = path;
+            File.Exists(loopVideoPath);
+            File.Exists(narratorVideoPath);
+            PlayLoopVideo();
         }
         catch (Exception e)
         {
             Debug.Log(e);
-            NoticeController.noticeController.AddNormalMessage($"影片檔名讀取失敗,請檢查'VideoTypeSetting.txt'文本內容是否與影片[檔名.副檔名] 一致,");
+            NoticeController.noticeController.AddNormalMessage($"影片檔名讀取失敗,請檢查'{VIDEOTPYE_TXTDATA}.txt'文本內容是否與影片[檔名.副檔名] 一致,");
             NoticeController.noticeController.AddNormalMessage($"路徑{Application.streamingAssetsPath}");
             return;
         }
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            PlayLoopVideo();
+        }
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            PlayNarratorVideo();
+        }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            NoticeController.noticeController.AddNormalMessage($"循環跑馬燈測試");
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            NoticeController.noticeController.AddStoryMessage($"解說跑馬燈測試,即將回到循環影片", 0);
+        }
+    }
+    public void PlayLoopVideo()
+    {    
+        videoPlayer.url = loopVideoPath;
+        videoPlayer.isLooping = true;
+        videoPlayer.Play();
+        FadeInAndOut(videoRawImageCanvasGroup);
+    }
+    public void PlayNarratorVideo()
+    {
+        videoPlayer.url = narratorVideoPath;
+        videoPlayer.isLooping = false;
+        videoPlayer.Play();
+        FadeInAndOut(videoRawImageCanvasGroup);
+    }
+
+    void FadeInAndOut(CanvasGroup canvasGroup)
+    {
+        canvasGroup.DOFade(0, 0.4f).SetLoops(2, LoopType.Yoyo);
     }
 }

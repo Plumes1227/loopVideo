@@ -7,7 +7,7 @@ public class NarratorMessageLoad : MonoBehaviour
 {
     const string TIMESETTING_TXTDATA = "解說時間設定";
     const string NARRATOR_TXTDATA = "解說員文本";
-    List<string> storyShowTimeList = new List<string>();    
+    List<string> storyShowTimeList = new List<string>();
 
     class storyTime
     {
@@ -69,8 +69,16 @@ public class NarratorMessageLoad : MonoBehaviour
                 {
                     string[] timeline = narratorStr[i].Split('#');
                     storySubStartTime.Add(timeline[1]);
-                    int sec = GetSubSecnds(timeline[1], timeline[2]);
-                    string message = narratorStr[i + 1];    //時間訊息的下一行=內容
+                    int sec = GetSubSecnds(timeline[1].Trim(), timeline[2].Trim());
+                    string message;
+                    if (narratorStr[i + 1].Contains("[Timeline]"))
+                    {
+                        message = "";       //如果下一行又是時間線,此行時間線內容視為空行(間格用)
+                    }
+                    else
+                    {
+                        message = narratorStr[i + 1];    //時間訊息的下一行=內容
+                    }
                     storyList.Add(new storyTime(message, sec));
                 }
             }
@@ -84,7 +92,7 @@ public class NarratorMessageLoad : MonoBehaviour
 
 
         OnLoadComplete();
-        NoticeController.noticeController.AddStoryMessage("LoadFinish,TestRunTxtMsg", 0);
+        //NoticeController.noticeController.AddStoryMessage("LoadFinish,TestRunTxtMsg", 0);
     }
 
 
@@ -96,7 +104,7 @@ public class NarratorMessageLoad : MonoBehaviour
 
     //每分鐘調用一次
     void TimeClock()
-    {        
+    {
         CheckNarratorShowStartTime();     //每分鐘檢查一次是否為解說時間
     }
 
@@ -112,6 +120,7 @@ public class NarratorMessageLoad : MonoBehaviour
         {
             NoticeController.noticeController.AddStoryMessage(storyList[i].message, storyList[i].sec);
         }
+        VideoController.videoController.PlayNarratorVideo();
     }
 
     int GetSubSecnds(string startTimer, string endTimer)

@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 272904705}
   - component: {fileID: 272904707}
   - component: {fileID: 272904706}
+  - component: {fileID: 272904708}
   m_Layer: 5
   m_Name: RawImage
   m_TagString: Untagged
@@ -195,6 +196,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 272904704}
   m_CullTransparentMesh: 1
+--- !u!225 &272904708
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 272904704}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &412741870
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,7 +345,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ...
+  m_Text: 
 --- !u!222 &456678467
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -506,7 +519,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0bf4f463f7977b449029e92817253e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  txtDataName: "\u5B9A\u6642\u8DD1\u99AC\u71C8\u6587\u672C"
 --- !u!114 &535498526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -554,10 +566,10 @@ RectTransform:
   m_Father: {fileID: 1736646447}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -590, y: 520}
-  m_SizeDelta: {x: -1220, y: -1060}
+  m_AnchoredPosition: {x: -590, y: -80}
+  m_SizeDelta: {x: -1220, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1055186137
 MonoBehaviour:
@@ -605,9 +617,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1055186135}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &1055186140
 MonoBehaviour:
@@ -674,7 +686,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ...
+  m_Text: 
 --- !u!114 &1294710962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -763,7 +775,7 @@ VideoPlayer:
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
   m_ControlledAudioTrackCount: 1
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_SkipOnDrop: 1
   m_Looping: 1
   m_WaitForFirstFrame: 1
@@ -795,7 +807,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65a340c8b00cf1a47a92cf0b229e2d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  videoTypeTxtName: "\u5F71\u7247\u540D\u7A31\u985E\u578B\u8A2D\u5B9A"
+  videoRawImageCanvasGroup: {fileID: 272904708}
 --- !u!1 &1736646443
 GameObject:
   m_ObjectHideFlags: 0
@@ -935,10 +947,10 @@ RectTransform:
   m_Father: {fileID: 1736646447}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 1040, y: 520}
-  m_SizeDelta: {x: -2120, y: -1060}
+  m_AnchoredPosition: {x: 1040, y: -80}
+  m_SizeDelta: {x: -2120, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1869495955
 MonoBehaviour:
@@ -986,9 +998,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1869495953}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &1869495958
 MonoBehaviour:

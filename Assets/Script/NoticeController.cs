@@ -112,6 +112,7 @@ public class NoticeController : MonoBehaviour
         }
         isStoryScrolling = false;
         ShowOrHideRunText(storyTxtMsgCvsG, false);
+        VideoController.videoController.PlayLoopVideo();
         yield break;
     }
 
