@@ -7,7 +7,7 @@ This is the imitative environment of the eastern.
 [Timeline]#00:00:12#00:00:17
 The Pacific ocean.
 
-[Timeline]#00:00:19#00:00:24
+[Timeline]#00:00:17#00:00:24
 In this area, there are sufficient sunlight and proper water temperature.
 
 [Timeline]#00:00:24#00:00:32

@@ -6,15 +6,10 @@ public class RuntimeText : MonoBehaviour
 {
     public static void WriteString(string txtDataName, string message)
     {
-        string path = Application.streamingAssetsPath + $"/{txtDataName}.txt";
-        //Write some text to the test.txt file
+        string path = Application.streamingAssetsPath + $"/{txtDataName}.txt";        
         StreamWriter writer = new StreamWriter(path, true);
         writer.Write(message);
         writer.Close();
-        // StreamReader reader = new StreamReader(path);
-        // //Print the text from the file
-        // Debug.Log(reader.ReadToEnd());
-        // reader.Close();
     }
     public static string ReadString(string txtDataName)
     {
@@ -27,11 +22,7 @@ public class RuntimeText : MonoBehaviour
         catch (Exception e)
         {
             Debug.Log(e);
-            return "";
+            return null;
         }
-
-        //string path = Application.persistentDataPath + "/test.txt";
-        //Read the text from directly from the test.txt file
-        // reader.Close();
     }
 }

@@ -5,7 +5,7 @@ using System;
 
 public class VideoController : MonoBehaviour
 {
-    [SerializeField] string videoTypeTxtName;
+    const string VIDEOTPYE_TXTDATA = "影片名稱類型設定";
     string videoDataName;    
     VideoPlayer videoPlayer;
 
@@ -17,7 +17,7 @@ public class VideoController : MonoBehaviour
 
     private void LoadVideoType()
     {
-        string path = Application.streamingAssetsPath + $"/{videoTypeTxtName}.txt";
+        string path = Application.streamingAssetsPath + $"/{VIDEOTPYE_TXTDATA}.txt";
         try
         {            
             StreamReader reader = new StreamReader(path);

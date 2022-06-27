@@ -493,7 +493,7 @@ MonoBehaviour:
   storyTxtMsgRect: {fileID: 1055186136}
   storyTxtMsg: {fileID: 1294710961}
   normalMsgSpeed: 100
-  storyMsgSpeed: 150
+  storyMsgSpeed: 300
 --- !u!114 &535498525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -501,7 +501,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 535498522}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0bf4f463f7977b449029e92817253e5, type: 3}
   m_Name: 
@@ -519,7 +519,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27ae7b3ca7f0b394a874461e4d44d8ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storyTxtDataName: "\u89E3\u8AAA\u54E1\u6587\u672C"
 --- !u!1 &1055186135
 GameObject:
   m_ObjectHideFlags: 0

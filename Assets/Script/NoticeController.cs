@@ -37,10 +37,9 @@ public class NoticeController : MonoBehaviour
     /// <param name="msg"></param>    
     public void AddNormalMessage(string msg)
     {
-        if (!normalTxtMsgRect.gameObject.activeSelf)
+        if (normalTxtMsgCvsG.alpha == 0)
         {
-            normalTxtMsgRect.gameObject.SetActive(true);
-            //NormalInit();
+            ShowOrHideRunText(normalTxtMsgCvsG, true);
         }
         m_MsgQueue.Enqueue(msg);
         if (isNormalScrolling) return;
@@ -59,11 +58,11 @@ public class NoticeController : MonoBehaviour
             float duration = startPos / storyMsgSpeed;
             isNormalScrolling = true;
             normalTxtMsg.rectTransform.localPosition = new Vector3(startPos, pos.y, pos.z);
-            normalTxtMsg.rectTransform.DOLocalMoveX(-startPos, duration).SetEase(Ease.Linear);            
+            normalTxtMsg.rectTransform.DOLocalMoveX(-startPos, duration).SetEase(Ease.Linear);
             yield return new WaitForSeconds(duration);
         }
         isNormalScrolling = false;
-        normalTxtMsgRect.gameObject.SetActive(false);
+        ShowOrHideRunText(normalTxtMsgCvsG, false);
         yield break;
     }
 
@@ -74,9 +73,9 @@ public class NoticeController : MonoBehaviour
     /// <param name="sec"></param>
     public void AddStoryMessage(string msg, float sec)
     {
-        if (!storyTxtMsgRect.gameObject.activeSelf)
+        if (storyTxtMsgCvsG.alpha == 0)
         {
-            storyTxtMsgRect.gameObject.SetActive(true);
+            ShowOrHideRunText(storyTxtMsgCvsG, true);
         }
         storyMsgQueue.Enqueue(msg);
         storySecQueue.Enqueue(sec);
@@ -101,6 +100,7 @@ public class NoticeController : MonoBehaviour
             storyTxtMsg.rectTransform.localPosition = new Vector3(startPos, pos.y, pos.z);
             if (storySec > 0)
             {
+                //Debug.Log($"秒數{storySec}");
                 storyTxtMsg.rectTransform.DOLocalMoveX(-startPos, storySec).SetEase(Ease.Linear);
                 yield return new WaitForSeconds(storySec);
             }
@@ -111,7 +111,12 @@ public class NoticeController : MonoBehaviour
             }
         }
         isStoryScrolling = false;
-        storyTxtMsgRect.gameObject.SetActive(false);
+        ShowOrHideRunText(storyTxtMsgCvsG, false);
         yield break;
+    }
+
+    void ShowOrHideRunText(CanvasGroup canvasGroup, bool isShow)
+    {
+        canvasGroup.DOFade(isShow ? 1 : 0, 0.4f).SetEase(Ease.OutBack);
     }
 }
