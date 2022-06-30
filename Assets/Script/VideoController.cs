@@ -9,6 +9,10 @@ public class VideoController : MonoBehaviour
 {
     public static VideoController videoController;
     [SerializeField] CanvasGroup videoRawImageCanvasGroup;
+    [SerializeField] CanvasGroup ExPlanCanvasGroup;
+    [SerializeField] CanvasGroup ExRawImageCanvasGroup;
+    [SerializeField] RenderTexture render3212;  //32:1200
+    [SerializeField] RenderTexture render169;   //16:9
     const string VIDEOTPYE_TXTDATA = "影片名稱類型設定";
 
     string[] dataStr;
@@ -19,6 +23,8 @@ public class VideoController : MonoBehaviour
     string narratorVideoPath;
     VideoPlayer videoPlayer;
 
+    [SerializeField] GameObject mp;
+    [SerializeField] GameObject umask;
     void Awake()
     {
         videoController = this;
@@ -93,26 +99,50 @@ public class VideoController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
-            NoticeController.noticeController.AddStoryMessage($"解說跑馬燈測試,即將回到循環影片", 0);
+            NoticeController.noticeController.AddStoryMessage($"解說字幕測試,即將回到循環影片", 5);
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            mp.SetActive(!mp.activeSelf);
+        }
+        if(Input.GetKeyDown(KeyCode.U))
+        {
+            umask.SetActive(!umask.activeSelf);
         }
     }
     public void PlayLoopVideo()
-    {    
+    {
+        FadeIn(videoRawImageCanvasGroup);
+        FadeOut(ExPlanCanvasGroup);
+        FadeOut(ExRawImageCanvasGroup);
+        videoPlayer.targetTexture = render3212;
         videoPlayer.url = loopVideoPath;
         videoPlayer.isLooping = true;
         videoPlayer.Play();
-        FadeInAndOut(videoRawImageCanvasGroup);
     }
     public void PlayNarratorVideo()
     {
+        FadeOut(videoRawImageCanvasGroup);
+        FadeIn(ExPlanCanvasGroup);
+        FadeIn(ExRawImageCanvasGroup);
+        videoPlayer.targetTexture = render169;
         videoPlayer.url = narratorVideoPath;
         videoPlayer.isLooping = false;
         videoPlayer.Play();
-        FadeInAndOut(videoRawImageCanvasGroup);
     }
 
     void FadeInAndOut(CanvasGroup canvasGroup)
     {
         canvasGroup.DOFade(0, 0.4f).SetLoops(2, LoopType.Yoyo);
     }
+    void FadeIn(CanvasGroup canvasGroup)
+    {
+        canvasGroup.DOFade(1, 0.5f);
+    }
+    void FadeOut(CanvasGroup canvasGroup)
+    {
+        canvasGroup.DOFade(0, 0.3f);
+    }
+
+
 }

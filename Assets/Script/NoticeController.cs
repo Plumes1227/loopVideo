@@ -17,6 +17,7 @@ public class NoticeController : MonoBehaviour
     [SerializeField] RectTransform storyTxtMsgRect;
     CanvasGroup storyTxtMsgCvsG;
     [SerializeField] Text storyTxtMsg;//解說員跑馬燈text.
+    [SerializeField] CanvasGroup storyCG;//解說員跑馬燈CG
     Queue<string> m_MsgQueue = new Queue<string>();//文字隊列
     Queue<string> storyMsgQueue = new Queue<string>();//解說員文字隊列
     Queue<float> storySecQueue = new Queue<float>();//解說員播文字放時間對列,
@@ -24,9 +25,11 @@ public class NoticeController : MonoBehaviour
     bool isStoryScrolling = false;
     [SerializeField] float normalMsgSpeed;   //跑馬燈速度
     [SerializeField] float storyMsgSpeed;   //跑馬燈速度
+    WaitForSeconds waitForSeconds;
     float storySec;
     private void Start()
     {
+        waitForSeconds = new WaitForSeconds(0.5f);
         normalTxtMsgCvsG = normalTxtMsgRect.GetComponent<CanvasGroup>();
         storyTxtMsgCvsG = storyTxtMsgRect.GetComponent<CanvasGroup>();
     }
@@ -97,18 +100,23 @@ public class NoticeController : MonoBehaviour
             isStoryScrolling = true;
 
             storySec = storySecQueue.Dequeue();
-            storyTxtMsg.rectTransform.localPosition = new Vector3(startPos, pos.y, pos.z);
+            //storyTxtMsg.rectTransform.localPosition = new Vector3(startPos, pos.y, pos.z);
             if (storySec > 0)
             {
                 //Debug.Log($"秒數{storySec}");
-                storyTxtMsg.rectTransform.DOLocalMoveX(-startPos, storySec).SetEase(Ease.Linear);
+                //storyTxtMsg.rectTransform.DOLocalMoveX(-startPos, storySec).SetEase(Ease.Linear);
+                ShowOrHideRunText(storyCG,true);
                 yield return new WaitForSeconds(storySec);
+                ShowOrHideRunText(storyCG,false);
             }
             else
             {
-                storyTxtMsg.rectTransform.DOLocalMoveX(-startPos, duration).SetEase(Ease.Linear);
+                //storyTxtMsg.rectTransform.DOLocalMoveX(-startPos, duration).SetEase(Ease.Linear);
+                ShowOrHideRunText(storyCG,true);
                 yield return new WaitForSeconds(duration);
+                ShowOrHideRunText(storyCG,false);
             }
+            yield return waitForSeconds;
         }
         isStoryScrolling = false;
         ShowOrHideRunText(storyTxtMsgCvsG, false);
