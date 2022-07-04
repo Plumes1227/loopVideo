@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.IO;
 using UnityEngine.Video;
 using System;
@@ -22,6 +23,7 @@ public class VideoController : MonoBehaviour
     string loopVideoPath;
     string narratorVideoPath;
     VideoPlayer videoPlayer;
+    WaitForSeconds waitForSeconds;
 
     [SerializeField] GameObject mp;
     [SerializeField] GameObject umask;
@@ -31,6 +33,7 @@ public class VideoController : MonoBehaviour
     }
     void Start()
     {
+        waitForSeconds = new WaitForSeconds(1);
         videoPlayer = GetComponent<VideoPlayer>();
         LoadVideoType();
     }
@@ -119,6 +122,7 @@ public class VideoController : MonoBehaviour
         videoPlayer.url = loopVideoPath;
         videoPlayer.isLooping = true;
         videoPlayer.Play();
+        StopAllCoroutines();
     }
     public void PlayNarratorVideo()
     {
@@ -129,6 +133,17 @@ public class VideoController : MonoBehaviour
         videoPlayer.url = narratorVideoPath;
         videoPlayer.isLooping = false;
         videoPlayer.Play();
+        StopAllCoroutines();
+        StartCoroutine(ChakeBackLoopVideo());
+    }
+    IEnumerator ChakeBackLoopVideo()
+    {
+        yield return waitForSeconds;
+        while (videoPlayer.isPlaying)
+        {
+           yield return waitForSeconds;
+        }
+        PlayLoopVideo();
     }
 
     void FadeInAndOut(CanvasGroup canvasGroup)
