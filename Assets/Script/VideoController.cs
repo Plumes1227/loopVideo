@@ -23,7 +23,9 @@ public class VideoController : MonoBehaviour
     string loopVideoPath;
     string narratorVideoPath;
     VideoPlayer videoPlayer;
-    WaitForSeconds waitForSeconds;
+    WaitUntil waitUntilVideoPaused;
+
+
 
     [SerializeField] GameObject mp;
     [SerializeField] GameObject umask;
@@ -32,8 +34,9 @@ public class VideoController : MonoBehaviour
         videoController = this;
     }
     void Start()
-    {
-        waitForSeconds = new WaitForSeconds(1);
+    {        
+        Cursor.visible = false;
+        waitUntilVideoPaused = new WaitUntil(()=> videoPlayer.isPaused);        
         videoPlayer = GetComponent<VideoPlayer>();
         LoadVideoType();
     }
@@ -42,7 +45,7 @@ public class VideoController : MonoBehaviour
     {
         string path = Application.streamingAssetsPath + $"/{VIDEOTPYE_TXTDATA}.txt";
         try
-        {
+        {            
             StreamReader reader = new StreamReader(path);
             dataStr = reader.ReadToEnd().Split('\n');
         }
@@ -138,11 +141,7 @@ public class VideoController : MonoBehaviour
     }
     IEnumerator ChakeBackLoopVideo()
     {
-        yield return waitForSeconds;
-        while (videoPlayer.isPlaying)
-        {
-           yield return waitForSeconds;
-        }
+        yield return waitUntilVideoPaused;
         PlayLoopVideo();
     }
 
