@@ -1010,7 +1010,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &604467553
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1982,7 +1982,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1337691278
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2321,12 +2321,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   videoRawImageCanvasGroup: {fileID: 272904708}
-  ExPlanCanvasGroup: {fileID: 604467554}
-  ExRawImageCanvasGroup: {fileID: 1839329264}
+  ExPlanCanvasGroup: {fileID: 1545077064}
+  ExRawImageCanvasGroup: {fileID: 104059701}
   render3212: {fileID: 8400000, guid: 837856f7801060642a84714ea80d14d8, type: 2}
   render169: {fileID: 8400000, guid: 8e7d29f3b8476f04eb84835e7bb244a8, type: 2}
   mp: {fileID: 374340948}
-  umask: {fileID: 1492612211}
+  umask: {fileID: 1337691277}
 --- !u!1 &1466283097
 GameObject:
   m_ObjectHideFlags: 0
@@ -2417,7 +2417,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1492612212
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2543,7 +2543,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1545077063
 RectTransform:
   m_ObjectHideFlags: 0

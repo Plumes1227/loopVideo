@@ -105,7 +105,7 @@ public class VideoController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
-            NoticeController.noticeController.AddStoryMessage($"解說字幕測試,即將回到循環影片", 5);
+            NoticeController.noticeController.AddStoryMessage($"解說字幕測試", 5);
         }
         if (Input.GetKeyDown(KeyCode.O))
         {

@@ -7,8 +7,7 @@ using System.IO;
 public class TextMessageLoad : MonoBehaviour
 {
     const string TIMEDRUNMESSAGE_TXTDATA = "定時跑馬燈文本";
-
-    string nowTime;
+    
     List<string> messageShowTimeList = new List<string>();
     List<string> messageTextList = new List<string>();
 
@@ -66,34 +65,37 @@ public class TextMessageLoad : MonoBehaviour
     }
 
     void OnLoadComplete()
-    {
-        int sec = int.Parse(DateTime.Now.ToString("ss"));
-        InvokeRepeating(TIMECLOCK, 60 - sec, 60);
+    {        
+        InvokeRepeating(TIMECLOCK, 0, 1);
     }
 
     //每秒調用一次
     void TimeClock()
-    {
-        nowTime = DateTime.Now.ToString("HH:mm");
-
+    {         
         CheckMessageSendTime();     //每分鐘檢查一次是否為發送訊息時間        
     }
 
     void CheckMessageSendTime()
     {
-        if (!showTimeDictionary.ContainsKey(nowTime)) return;
+        if (!showTimeDictionary.ContainsKey(NowMinute())) return;
 
-        int messageLenght = showTimeDictionary[nowTime].Count;
-        for (int i = 0; i < messageLenght; i++)
+        int messageLenght = showTimeDictionary[NowMinute()].Count;
+
+        foreach (string item in showTimeDictionary[NowMinute()])
         {
-            NoticeController.noticeController.AddNormalMessage(showTimeDictionary[nowTime][i]);
+            NoticeController.noticeController.AddNormalMessage(item);
         }
+    }
+
+    private string NowMinute()
+    {
+        return DateTime.Now.ToString("HH:mm");
     }
 
 
     void CreateTimeTxtData()
     {
-        string mes = $"{DateTime.Now.ToString("HH:mm")}#我是範例格式|歡迎編輯此跑馬燈資訊|請遵照本格式編輯此文本";
+        string mes = $"{NowMinute()}#我是範例格式|歡迎編輯此跑馬燈資訊|請遵照本格式編輯此文本";
         RuntimeText.WriteString(TIMEDRUNMESSAGE_TXTDATA, mes);
         NoticeController.noticeController.AddNormalMessage(
             $"找不到{TIMEDRUNMESSAGE_TXTDATA}檔案,已生成初始文本檔案,請至{dataPath}查閱"

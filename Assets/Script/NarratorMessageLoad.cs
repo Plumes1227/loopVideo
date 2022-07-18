@@ -46,11 +46,12 @@ public class NarratorMessageLoad : MonoBehaviour
             NoticeController.noticeController.AddStoryMessage($"文件:{TIMESETTING_TXTDATA}.txt,格式錯誤,第一行須為[PlaySchedule]", 0);
             return;
         }
-        for (int i = 1; i < feedingStr.Length; i++)
-        {
-            storyShowTimeList.Add(feedingStr[i].Trim());
-        }
 
+        foreach (var item in feedingStr)
+        {
+            storyShowTimeList.Add(item.Trim());
+            //Debug.Log($"讀取到解說播放時間：{item.Trim()}");
+        }
 
         //--解說文本讀取--//
         string narratorData = RuntimeText.ReadString(NARRATOR_TXTDATA);
@@ -98,8 +99,7 @@ public class NarratorMessageLoad : MonoBehaviour
 
     void OnLoadComplete()
     {
-        int sec = int.Parse(DateTime.Now.ToString("ss"));
-        InvokeRepeating(TIMECLOCK, 60 - sec, 60);
+        InvokeRepeating(TIMECLOCK, 0, 1);
     }
 
     //每分鐘調用一次
@@ -110,17 +110,24 @@ public class NarratorMessageLoad : MonoBehaviour
 
     void CheckNarratorShowStartTime()
     {
-        if (!storyShowTimeList.Contains(DateTime.Now.ToString("HH:mm"))) return;
+        //Debug.Log(NowMinute());
+        if (!storyShowTimeList.Contains(NowMinute())) return;
         ConfigureStory();
     }
 
+    private string NowMinute()
+    {
+        return DateTime.Now.ToString("HH:mm");
+    }
+
+
     private void ConfigureStory()
     {
+        VideoController.videoController.PlayNarratorVideo();
         for (int i = 0; i < storyList.Count; i++)
         {
             NoticeController.noticeController.AddStoryMessage(storyList[i].message, storyList[i].sec);
         }
-        VideoController.videoController.PlayNarratorVideo();
     }
 
     int GetSubSecnds(string startTimer, string endTimer)
