@@ -7,7 +7,7 @@ using System.IO;
 public class TextMessageLoad : MonoBehaviour
 {
     const string TIMEDRUNMESSAGE_TXTDATA = "定時跑馬燈文本";
-    
+
     List<string> messageShowTimeList = new List<string>();
     List<string> messageTextList = new List<string>();
 
@@ -65,13 +65,13 @@ public class TextMessageLoad : MonoBehaviour
     }
 
     void OnLoadComplete()
-    {        
-        InvokeRepeating(TIMECLOCK, 0, 1);
+    {
+        InvokeRepeating(TIMECLOCK, 60 - DateTime.Now.Second, 60);
     }
 
-    //每秒調用一次
+    //每分鐘調用一次
     void TimeClock()
-    {         
+    {
         CheckMessageSendTime();     //每分鐘檢查一次是否為發送訊息時間        
     }
 

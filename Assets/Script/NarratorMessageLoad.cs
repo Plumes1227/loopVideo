@@ -102,31 +102,33 @@ public class NarratorMessageLoad : MonoBehaviour
         InvokeRepeating(TIMECLOCK, 0, 1);
     }
 
-    //每分鐘調用一次
+    //每秒鐘調用一次
     void TimeClock()
     {
-        CheckNarratorShowStartTime();     //每分鐘檢查一次是否為解說時間
+        CheckNarratorShowStartTime();     //每秒鐘秒鐘檢查一次是否為解說時間
     }
 
     void CheckNarratorShowStartTime()
     {
         //Debug.Log(NowMinute());
-        if (!storyShowTimeList.Contains(NowMinute())) return;
+        if (!storyShowTimeList.Contains(NowTime())) return;
         ConfigureStory();
     }
 
-    private string NowMinute()
+    private string NowTime()
     {
-        return DateTime.Now.ToString("HH:mm");
+        return DateTime.Now.ToString("HH:mm:ss");
     }
 
 
     private void ConfigureStory()
     {
         VideoController.videoController.PlayNarratorVideo();
-        for (int i = 0; i < storyList.Count; i++)
+
+        if (storyList.Count < 1) return;
+        foreach (var item in storyList)
         {
-            NoticeController.noticeController.AddStoryMessage(storyList[i].message, storyList[i].sec);
+            NoticeController.noticeController.AddStoryMessage(item.message, item.sec);
         }
     }
 
